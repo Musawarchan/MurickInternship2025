@@ -6,6 +6,7 @@ import '../../utils/validation_utils.dart';
 import '../../widgets/auth_button.dart';
 import '../../widgets/custom_form_field.dart';
 import '../../widgets/role_dropdown.dart';
+import '../../theme/app_theme.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -59,10 +60,10 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Account'),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Create Account'),
+      //   centerTitle: true,
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -102,7 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
         Icon(
           Icons.person_add,
           size: 64,
-          color: Theme.of(context).colorScheme.primary,
+          color: AppTheme.vividPink,
         ),
         const SizedBox(height: 16),
         Text(

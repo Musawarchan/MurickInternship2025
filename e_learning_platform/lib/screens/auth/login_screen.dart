@@ -6,6 +6,7 @@ import '../../utils/validation_utils.dart';
 import '../../widgets/auth_button.dart';
 import '../../widgets/custom_form_field.dart';
 import '../../widgets/role_dropdown.dart';
+import '../../theme/app_theme.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -52,10 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome Back'),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Welcome Back'),
+      //   centerTitle: true,
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Icon(
           Icons.school,
           size: 64,
-          color: Theme.of(context).colorScheme.primary,
+          color: AppTheme.ceruleanBlue,
         ),
         const SizedBox(height: 16),
         Text(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/course_provider.dart';
-import '../../../models/course.dart';
-import '../../../theme/app_theme.dart';
+import '../../providers/course_provider.dart';
+import '../../models/course.dart';
+import '../../theme/app_theme.dart';
 
-class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+class InstructorDashboard extends StatelessWidget {
+  const InstructorDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +26,13 @@ class HomeTab extends StatelessWidget {
               children: [
                 _buildWelcomeSection(context),
                 const SizedBox(height: 32),
-                _buildStatsSection(context),
+                _buildInstructorStats(context),
                 const SizedBox(height: 32),
                 _buildQuickActions(context),
                 const SizedBox(height: 32),
-                _buildFeaturedSection(context, courseProvider),
+                _buildMyCoursesSection(context, courseProvider),
                 const SizedBox(height: 32),
-                _buildCategoriesSection(context),
+                _buildAnalyticsSection(context),
                 const SizedBox(height: 20),
               ],
             ),
@@ -52,15 +52,15 @@ class HomeTab extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppTheme.ceruleanBlue,
             AppTheme.vividPink,
             AppTheme.amberOrange,
+            AppTheme.sunnyYellow,
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: scheme.primary.withOpacity(0.3),
+            color: scheme.secondary.withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -79,7 +79,7 @@ class HomeTab extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.school,
-                  color: scheme.onPrimary,
+                  color: scheme.onSecondary,
                   size: 28,
                 ),
               ),
@@ -89,18 +89,18 @@ class HomeTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome to E-Learning',
+                      'Instructor Dashboard',
                       style:
                           Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                color: scheme.onPrimary,
+                                color: scheme.onSecondary,
                                 fontWeight: FontWeight.bold,
                               ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Start your learning journey today',
+                      'Manage your courses and students',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: scheme.onPrimary.withOpacity(0.9),
+                            color: scheme.onSecondary.withOpacity(0.9),
                           ),
                     ),
                   ],
@@ -114,10 +114,10 @@ class HomeTab extends StatelessWidget {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  'Courses',
-                  '500+',
+                  'My Courses',
+                  '8',
                   Icons.menu_book,
-                  scheme.onPrimary,
+                  scheme.onSecondary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -125,19 +125,19 @@ class HomeTab extends StatelessWidget {
                 child: _buildStatCard(
                   context,
                   'Students',
-                  '10K+',
+                  '245',
                   Icons.people,
-                  scheme.onPrimary,
+                  scheme.onSecondary,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _buildStatCard(
                   context,
-                  'Instructors',
-                  '50+',
-                  Icons.person,
-                  scheme.onPrimary,
+                  'Revenue',
+                  '₹12K',
+                  Icons.attach_money,
+                  scheme.onSecondary,
                 ),
               ),
             ],
@@ -178,12 +178,12 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsSection(BuildContext context) {
+  Widget _buildInstructorStats(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Your Progress',
+          'Course Performance',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -192,32 +192,32 @@ class HomeTab extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: _buildProgressCard(
+              child: _buildPerformanceCard(
                 context,
-                'Enrolled',
-                '12',
-                Icons.bookmark,
-                Colors.blue,
+                'Avg Rating',
+                '4.8',
+                Icons.star,
+                Colors.amber,
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: _buildProgressCard(
+              child: _buildPerformanceCard(
                 context,
-                'Completed',
-                '8',
+                'Completion',
+                '87%',
                 Icons.check_circle,
                 Colors.green,
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: _buildProgressCard(
+              child: _buildPerformanceCard(
                 context,
-                'Certificates',
-                '5',
-                Icons.workspace_premium,
-                Colors.orange,
+                'Enrollments',
+                '156',
+                Icons.trending_up,
+                Colors.blue,
               ),
             ),
           ],
@@ -226,7 +226,7 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressCard(BuildContext context, String title, String count,
+  Widget _buildPerformanceCard(BuildContext context, String title, String value,
       IconData icon, Color color) {
     final scheme = Theme.of(context).colorScheme;
     return Container(
@@ -255,7 +255,7 @@ class HomeTab extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            count,
+            value,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: color,
@@ -290,22 +290,56 @@ class HomeTab extends StatelessWidget {
             Expanded(
               child: _buildActionButton(
                 context,
-                'Browse Courses',
-                'Explore our catalog',
-                Icons.explore,
-                Colors.blue,
-                () {},
+                'Create Course',
+                'Add new course',
+                Icons.add_circle,
+                Colors.green,
+                () {
+                  _showCreateCourseDialog(context);
+                },
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: _buildActionButton(
                 context,
-                'My Learning',
-                'Continue your journey',
-                Icons.play_circle,
-                Colors.green,
-                () {},
+                'Manage Students',
+                'View enrollments',
+                Icons.people_alt,
+                Colors.blue,
+                () {
+                  _showManageStudentsDialog(context);
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionButton(
+                context,
+                'Analytics',
+                'View reports',
+                Icons.analytics,
+                Colors.purple,
+                () {
+                  _showAnalyticsDialog(context);
+                },
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildActionButton(
+                context,
+                'Settings',
+                'Course settings',
+                Icons.settings,
+                Colors.orange,
+                () {
+                  _showSettingsDialog(context);
+                },
               ),
             ),
           ],
@@ -320,7 +354,7 @@ class HomeTab extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: scheme.surface,
           borderRadius: BorderRadius.circular(16),
@@ -337,17 +371,17 @@ class HomeTab extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: color, size: 24),
+              child: Icon(icon, color: color, size: 20),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -364,8 +398,11 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildFeaturedSection(
+  Widget _buildMyCoursesSection(
       BuildContext context, CourseProvider courseProvider) {
+    // Filter courses created by this instructor (mock data)
+    final myCourses = courseProvider.featured.take(3).toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -373,42 +410,80 @@ class HomeTab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Featured Courses',
+              'My Courses',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             TextButton(
               onPressed: () {},
-              child: const Text('View All'),
+              child: const Text('Manage All'),
             ),
           ],
         ),
         const SizedBox(height: 16),
-        SizedBox(
-          height: 280,
-          child: ListView.separated(
-            padding: const EdgeInsets.all(8),
-            scrollDirection: Axis.horizontal,
-            itemCount: courseProvider.featured.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 16),
-            itemBuilder: (context, index) => _buildFeaturedCourseCard(
-              context,
-              courseProvider.featured[index],
+        if (myCourses.isEmpty)
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+              ),
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.menu_book_outlined,
+                    size: 48,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No courses yet',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Create your first course to get started',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          SizedBox(
+            height: 200,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: myCourses.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 16),
+              itemBuilder: (context, index) => _buildMyCourseCard(
+                context,
+                myCourses[index],
+              ),
             ),
           ),
-        ),
       ],
     );
   }
 
-  Widget _buildFeaturedCourseCard(BuildContext context, Course course) {
+  Widget _buildMyCourseCard(BuildContext context, Course course) {
     final scheme = Theme.of(context).colorScheme;
     return Container(
-      width: 240,
+      width: 200,
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: scheme.outline.withOpacity(0.2)),
         boxShadow: [
           BoxShadow(
             color: scheme.shadow.withOpacity(0.08),
@@ -421,45 +496,19 @@ class HomeTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 140,
+            height: 100,
             decoration: BoxDecoration(
               color: scheme.primaryContainer,
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(16)),
             ),
-            child: Stack(
-              children: [
-                const Center(
-                  child: Icon(Icons.play_circle_fill,
-                      size: 48, color: Colors.white70),
-                ),
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: course.isFree ? Colors.green : scheme.secondary,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      course.isFree
-                          ? 'Free'
-                          : '₹${course.price.toStringAsFixed(0)}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            child: const Center(
+              child:
+                  Icon(Icons.play_circle_fill, size: 32, color: Colors.white70),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -467,33 +516,18 @@ class HomeTab extends StatelessWidget {
                   course.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  course.instructor,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
                       ),
                 ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(Icons.star, size: 16, color: Colors.amber.shade600),
+                    Icon(Icons.people,
+                        size: 14, color: scheme.onSurfaceVariant),
                     const SizedBox(width: 4),
                     Text(
-                      '${course.rating.toStringAsFixed(1)}',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '(${course.ratingCount})',
+                      '${course.ratingCount} students',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: scheme.onSurfaceVariant,
                           ),
@@ -501,17 +535,20 @@ class HomeTab extends StatelessWidget {
                     const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                          horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: scheme.primaryContainer,
+                        color: course.isFree ? Colors.green : scheme.secondary,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        course.difficulty.name.toUpperCase(),
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: scheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        course.isFree
+                            ? 'Free'
+                            : '₹${course.price.toStringAsFixed(0)}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
@@ -524,83 +561,131 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoriesSection(BuildContext context) {
-    final categories = [
-      {'name': 'Programming', 'icon': Icons.code, 'color': Colors.blue},
-      {'name': 'Design', 'icon': Icons.palette, 'color': Colors.purple},
-      {'name': 'Business', 'icon': Icons.business, 'color': Colors.green},
-      {'name': 'Marketing', 'icon': Icons.trending_up, 'color': Colors.orange},
-    ];
-
+  Widget _buildAnalyticsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Browse by Category',
+          'Recent Activity',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),
         const SizedBox(height: 16),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 2.5,
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+            ),
           ),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final category = categories[index];
-            return _buildCategoryCard(context, category);
-          },
+          child: Column(
+            children: [
+              _buildActivityItem(context, 'New student enrolled', '2 hours ago',
+                  Icons.person_add),
+              const Divider(),
+              _buildActivityItem(
+                  context, 'Course rating received', '5 hours ago', Icons.star),
+              const Divider(),
+              _buildActivityItem(
+                  context, 'Course completed', '1 day ago', Icons.check_circle),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildCategoryCard(
-      BuildContext context, Map<String, dynamic> category) {
-    final scheme = Theme.of(context).colorScheme;
-    final color = category['color'] as Color;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: scheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: scheme.outline.withOpacity(0.2)),
-        boxShadow: [
-          BoxShadow(
-            color: scheme.shadow.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+  Widget _buildActivityItem(
+      BuildContext context, String title, String time, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(category['icon'], color: color, size: 20),
-          ),
+          Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              category['name'],
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              title,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          Icon(Icons.arrow_forward_ios,
-              size: 16, color: scheme.onSurfaceVariant),
+          Text(
+            time,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showCreateCourseDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Create New Course'),
+        content: const Text(
+            'This feature will allow you to create and publish new courses. Coming soon!'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showManageStudentsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Manage Students'),
+        content:
+            const Text('View and manage your enrolled students. Coming soon!'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAnalyticsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Course Analytics'),
+        content: const Text(
+            'View detailed analytics and reports for your courses. Coming soon!'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSettingsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Course Settings'),
+        content: const Text(
+            'Manage your course settings and preferences. Coming soon!'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
         ],
       ),
     );
