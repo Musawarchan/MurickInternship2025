@@ -519,10 +519,6 @@ class CoursesTab extends StatelessWidget {
     return 2; // Always 2 columns as requested
   }
 
-  double _getChildAspectRatio(double width) {
-    return 0.85; // Professional aspect ratio
-  }
-
   void _showCreateCourseDialog(BuildContext context) {
     showDialog(
       context: context,

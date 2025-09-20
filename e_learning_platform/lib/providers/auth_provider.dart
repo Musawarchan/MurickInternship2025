@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user.dart';
 
 enum UserRole { student, instructor }
 
@@ -19,6 +20,22 @@ class AuthProvider extends ChangeNotifier {
   UserRole? get role => _role;
   bool get isLoading => _isLoading;
   String? get error => _error;
+
+  // User object for compatibility
+  AppUser? get user {
+    if (!_isAuthenticated ||
+        _email == null ||
+        _displayName == null ||
+        _role == null) {
+      return null;
+    }
+    return AppUser(
+      id: _email!,
+      name: _displayName!,
+      email: _email!,
+      role: _role!,
+    );
+  }
 
   AuthProvider() {
     _restore();

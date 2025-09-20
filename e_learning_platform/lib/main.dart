@@ -7,8 +7,11 @@ import 'providers/profile_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'theme/app_theme.dart';
+import 'services/progress_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ProgressService.init();
   runApp(const MyApp());
 }
 

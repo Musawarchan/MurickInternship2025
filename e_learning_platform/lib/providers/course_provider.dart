@@ -80,6 +80,14 @@ class CourseProvider extends ChangeNotifier {
     }
   }
 
+  void updateCourse(Course updatedCourse) {
+    final idx = _allCourses.indexWhere((c) => c.id == updatedCourse.id);
+    if (idx != -1) {
+      _allCourses[idx] = updatedCourse;
+      notifyListeners();
+    }
+  }
+
   List<Course> _filteredCourses() {
     Iterable<Course> list = _allCourses;
     if (_query.isNotEmpty) {
