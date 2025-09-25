@@ -38,7 +38,7 @@ class AppTheme {
       //   shadowColor: colorScheme.primary.withOpacity(0.3),
       // ),
       scaffoldBackgroundColor: Colors.grey[50],
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -162,7 +162,7 @@ class AppTheme {
       //   shadowColor: colorScheme.primary.withOpacity(0.3),
       // ),
       scaffoldBackgroundColor: const Color(0xFF121212),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),

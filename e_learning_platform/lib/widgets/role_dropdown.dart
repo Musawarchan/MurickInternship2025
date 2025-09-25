@@ -44,6 +44,16 @@ class RoleDropdown extends StatelessWidget {
             ],
           ),
         ),
+        DropdownMenuItem(
+          value: UserRole.admin,
+          child: Row(
+            children: [
+              Icon(Icons.admin_panel_settings, size: 20),
+              SizedBox(width: 8),
+              Text('Admin'),
+            ],
+          ),
+        ),
       ],
       onChanged: (value) {
         if (value != null) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
-enum UserRole { student, instructor }
+enum UserRole { student, instructor, admin }
 
 class AuthProvider extends ChangeNotifier {
   bool _isAuthenticated = false;
@@ -48,7 +48,16 @@ class AuthProvider extends ChangeNotifier {
     _displayName = prefs.getString('auth_displayName');
     final roleStr = prefs.getString('auth_role');
     if (roleStr != null) {
-      _role = roleStr == 'instructor' ? UserRole.instructor : UserRole.student;
+      switch (roleStr) {
+        case 'instructor':
+          _role = UserRole.instructor;
+          break;
+        case 'admin':
+          _role = UserRole.admin;
+          break;
+        default:
+          _role = UserRole.student;
+      }
     }
     final themeStr = prefs.getString('theme_mode');
     if (themeStr != null) {
@@ -80,8 +89,18 @@ class AuthProvider extends ChangeNotifier {
       await prefs.setBool('auth_isAuthenticated', true);
       await prefs.setString('auth_email', _email!);
       await prefs.setString('auth_displayName', _displayName!);
-      await prefs.setString(
-          'auth_role', role == UserRole.instructor ? 'instructor' : 'student');
+      String roleString;
+      switch (role) {
+        case UserRole.instructor:
+          roleString = 'instructor';
+          break;
+        case UserRole.admin:
+          roleString = 'admin';
+          break;
+        default:
+          roleString = 'student';
+      }
+      await prefs.setString('auth_role', roleString);
 
       notifyListeners();
     } catch (e) {
@@ -111,8 +130,18 @@ class AuthProvider extends ChangeNotifier {
       await prefs.setBool('auth_isAuthenticated', true);
       await prefs.setString('auth_email', _email!);
       await prefs.setString('auth_displayName', _displayName!);
-      await prefs.setString(
-          'auth_role', role == UserRole.instructor ? 'instructor' : 'student');
+      String roleString;
+      switch (role) {
+        case UserRole.instructor:
+          roleString = 'instructor';
+          break;
+        case UserRole.admin:
+          roleString = 'admin';
+          break;
+        default:
+          roleString = 'student';
+      }
+      await prefs.setString('auth_role', roleString);
 
       notifyListeners();
     } catch (e) {

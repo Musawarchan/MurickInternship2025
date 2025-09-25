@@ -6,6 +6,7 @@ import '../home/tabs/home_tab.dart';
 import '../home/tabs/courses_tab.dart';
 import '../home/tabs/profile_tab.dart';
 import '../instructor/instructor_dashboard.dart';
+import '../admin/admin_dashboard.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,39 +25,31 @@ class _HomeScreenState extends State<HomeScreen> {
         final userRole = auth.role;
 
         // Role-based tabs
-        final tabs = userRole == UserRole.instructor
+        final tabs = userRole == UserRole.admin
             ? [
-                const InstructorDashboard(),
+                const AdminDashboard(),
                 const CoursesTab(),
                 const ProfileTab(),
               ]
-            : [
-                const HomeTab(),
-                const CoursesTab(),
-                const ProfileTab(),
-              ];
+            : userRole == UserRole.instructor
+                ? [
+                    const InstructorDashboard(),
+                    const CoursesTab(),
+                    const ProfileTab(),
+                  ]
+                : [
+                    const HomeTab(),
+                    const CoursesTab(),
+                    const ProfileTab(),
+                  ];
 
         // Role-based navigation destinations
-        final destinations = userRole == UserRole.instructor
+        final destinations = userRole == UserRole.admin
             ? const [
                 NavigationDestination(
-                    icon: Icon(Icons.dashboard_outlined),
-                    selectedIcon: Icon(Icons.dashboard),
-                    label: 'Dashboard'),
-                NavigationDestination(
-                    icon: Icon(Icons.menu_book_outlined),
-                    selectedIcon: Icon(Icons.menu_book),
-                    label: 'My Courses'),
-                NavigationDestination(
-                    icon: Icon(Icons.person_outline),
-                    selectedIcon: Icon(Icons.person),
-                    label: 'Profile'),
-              ]
-            : const [
-                NavigationDestination(
-                    icon: Icon(Icons.home_outlined),
-                    selectedIcon: Icon(Icons.home),
-                    label: 'Home'),
+                    icon: Icon(Icons.admin_panel_settings_outlined),
+                    selectedIcon: Icon(Icons.admin_panel_settings),
+                    label: 'Admin'),
                 NavigationDestination(
                     icon: Icon(Icons.menu_book_outlined),
                     selectedIcon: Icon(Icons.menu_book),
@@ -65,7 +58,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icon(Icons.person_outline),
                     selectedIcon: Icon(Icons.person),
                     label: 'Profile'),
-              ];
+              ]
+            : userRole == UserRole.instructor
+                ? const [
+                    NavigationDestination(
+                        icon: Icon(Icons.dashboard_outlined),
+                        selectedIcon: Icon(Icons.dashboard),
+                        label: 'Dashboard'),
+                    NavigationDestination(
+                        icon: Icon(Icons.menu_book_outlined),
+                        selectedIcon: Icon(Icons.menu_book),
+                        label: 'My Courses'),
+                    NavigationDestination(
+                        icon: Icon(Icons.person_outline),
+                        selectedIcon: Icon(Icons.person),
+                        label: 'Profile'),
+                  ]
+                : const [
+                    NavigationDestination(
+                        icon: Icon(Icons.home_outlined),
+                        selectedIcon: Icon(Icons.home),
+                        label: 'Home'),
+                    NavigationDestination(
+                        icon: Icon(Icons.menu_book_outlined),
+                        selectedIcon: Icon(Icons.menu_book),
+                        label: 'Courses'),
+                    NavigationDestination(
+                        icon: Icon(Icons.person_outline),
+                        selectedIcon: Icon(Icons.person),
+                        label: 'Profile'),
+                  ];
 
         return Scaffold(
           // appBar: AppBar(

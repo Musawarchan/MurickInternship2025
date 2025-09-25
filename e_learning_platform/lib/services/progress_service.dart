@@ -112,9 +112,9 @@ class ProgressService {
   // Course Progress Methods
   static Future<void> _updateCourseProgress(
       String userId, String lessonId) async {
-    final courseId = lessonId
-        .split('_')
-        .first; // Assuming lessonId format: courseId_lessonNumber
+    // Extract courseId from lessonId. Expected format: "<courseId>_lesson_<n>"
+    // Using a stricter split to avoid breaking ids like "c_1".
+    final courseId = lessonId.split('_lesson_').first;
     final key = '${userId}_$courseId';
     final now = DateTime.now();
 

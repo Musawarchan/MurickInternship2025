@@ -42,10 +42,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
         _error = null;
       });
 
-      // For demo purposes, using a sample video URL
-      // In production, use widget.lesson.contentUrl
-      const videoUrl =
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      // Use the lesson content URL
+      final videoUrl = widget.lesson.contentUrl;
 
       _videoPlayerController = VideoPlayerController.networkUrl(
         Uri.parse(videoUrl),

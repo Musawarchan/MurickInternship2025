@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../models/course.dart';
+import '../models/review.dart';
 
 class CourseProvider extends ChangeNotifier {
   bool _loading = false;
   final List<Course> _allCourses = [];
   final List<Course> _featured = [];
+  final Map<String, List<Review>> _courseIdToReviews = {};
 
   // Filters
   String _query = '';
@@ -23,6 +25,8 @@ class CourseProvider extends ChangeNotifier {
   List<Course> get featured => List.unmodifiable(_featured);
   bool get hasMore => _hasMore;
   bool? get freeOnly => _freeOnly;
+  List<Review> getReviews(String courseId) =>
+      List.unmodifiable(_courseIdToReviews[courseId] ?? const []);
 
   Future<void> loadInitial() async {
     if (_allCourses.isNotEmpty) return;
@@ -86,6 +90,49 @@ class CourseProvider extends ChangeNotifier {
       _allCourses[idx] = updatedCourse;
       notifyListeners();
     }
+  }
+
+  // Reviews API (mock)
+  void addReview({
+    required String courseId,
+    required Review review,
+  }) {
+    final list = _courseIdToReviews.putIfAbsent(courseId, () => <Review>[]);
+    list.add(review);
+
+    // Update course aggregate rating/count
+    _recalculateCourseRating(courseId);
+    notifyListeners();
+  }
+
+  void moderateReview({
+    required String courseId,
+    required String reviewId,
+    required bool approved,
+  }) {
+    final list = _courseIdToReviews[courseId];
+    if (list == null) return;
+    final idx = list.indexWhere((r) => r.id == reviewId);
+    if (idx == -1) return;
+    list[idx] = list[idx].copyWith(approved: approved);
+    _recalculateCourseRating(courseId);
+    notifyListeners();
+  }
+
+  void _recalculateCourseRating(String courseId) {
+    final idx = _allCourses.indexWhere((c) => c.id == courseId);
+    if (idx == -1) return;
+    final reviews = (_courseIdToReviews[courseId] ?? const [])
+        .where((r) => r.approved)
+        .toList();
+    if (reviews.isEmpty) return;
+    final avg =
+        reviews.fold<int>(0, (sum, r) => sum + r.rating) / reviews.length;
+    _allCourses[idx] = _allCourses[idx].copyWith(
+      rating: avg.toDouble(),
+      ratingCount: reviews.length,
+      reviews: reviews,
+    );
   }
 
   List<Course> _filteredCourses() {

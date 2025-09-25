@@ -11,6 +11,9 @@ import '../../widgets/custom_video_player.dart';
 import '../../widgets/lesson_navigation.dart';
 import '../../widgets/notes_resources_section.dart';
 import '../../services/progress_service.dart';
+import '../payment/payment_screen.dart';
+import '../reviews/review_screen.dart';
+import '../certificate/certificate_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   final Course course;
@@ -120,6 +123,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
+    // Determine if course is completed for current user
+    final userId = context.read<AuthProvider>().user?.id ?? 'anonymous';
+    final courseProgress =
+        ProgressService.getCourseProgress(widget.course.id, userId);
+    final isCourseCompleted = (courseProgress?.overallProgress ?? 0.0) >= 1.0;
 
     if (!_isEnrolled) {
       return _buildEnrollmentScreen();
@@ -127,8 +135,22 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(Icons.arrow_back)),
         title: Text(widget.course.title),
         actions: [
+          if (isCourseCompleted)
+            IconButton(
+              onPressed: _navigateToCertificate,
+              icon: const Icon(Icons.workspace_premium_outlined),
+              tooltip: 'Get Certificate',
+            ),
+          IconButton(
+            onPressed: () => _navigateToReviews(),
+            icon: const Icon(Icons.star_outline),
+            tooltip: 'View Reviews',
+          ),
           IconButton(
             onPressed: _toggleSidebar,
             icon: Icon(_showSidebar ? Icons.menu_open : Icons.menu),
@@ -305,7 +327,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: _onEnroll,
+                onPressed:
+                    widget.course.isFree ? _onEnroll : _navigateToPayment,
                 style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
@@ -649,5 +672,32 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
       case LessonType.quiz:
         return Icons.quiz_outlined;
     }
+  }
+
+  void _navigateToPayment() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PaymentScreen(course: widget.course),
+      ),
+    );
+  }
+
+  void _navigateToReviews() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ReviewScreen(course: widget.course),
+      ),
+    );
+  }
+
+  void _navigateToCertificate() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CertificateScreen(
+          course: widget.course,
+          completionDate: DateTime.now(),
+        ),
+      ),
+    );
   }
 }

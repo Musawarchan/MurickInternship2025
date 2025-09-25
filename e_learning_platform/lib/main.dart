@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/course_provider.dart';
 import 'providers/profile_provider.dart';
+import 'providers/review_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'theme/app_theme.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CourseProvider>(create: (_) => CourseProvider()),
         ChangeNotifierProvider<ProfileProvider>(
             create: (_) => ProfileProvider()),
+        ChangeNotifierProvider<ReviewProvider>(create: (_) => ReviewProvider()),
       ],
       child: Consumer<AuthProvider>(
         builder: (context, auth, _) {

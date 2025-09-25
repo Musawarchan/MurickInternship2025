@@ -1,4 +1,5 @@
 import 'lesson.dart';
+import 'review.dart';
 
 enum CourseCategory { programming, design, business, marketing, other }
 
@@ -21,6 +22,7 @@ class Course {
   final List<Lesson> lessons;
   final int totalDuration; // Total duration in seconds
   final int lessonCount;
+  final List<Review> reviews;
 
   Course({
     required this.id,
@@ -39,6 +41,7 @@ class Course {
     this.lessons = const [],
     this.totalDuration = 0,
     this.lessonCount = 0,
+    this.reviews = const [],
   });
 
   String get formattedTotalDuration {
@@ -67,6 +70,7 @@ class Course {
     List<Lesson>? lessons,
     int? totalDuration,
     int? lessonCount,
+    List<Review>? reviews,
   }) {
     return Course(
       id: id ?? this.id,
@@ -85,6 +89,7 @@ class Course {
       lessons: lessons ?? this.lessons,
       totalDuration: totalDuration ?? this.totalDuration,
       lessonCount: lessonCount ?? this.lessonCount,
+      reviews: reviews ?? this.reviews,
     );
   }
 }
