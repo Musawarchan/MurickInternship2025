@@ -17,8 +17,11 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<CourseProvider>().loadInitial();
-    context.read<ReviewProvider>().loadReviews();
+    // Use post-frame callback to avoid setState during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CourseProvider>().loadInitial();
+      context.read<ReviewProvider>().loadReviews();
+    });
   }
 
   @override
@@ -64,6 +67,7 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
             _buildCoursePerformance(),
             const SizedBox(height: 24),
             _buildStudentEngagement(),
+            const SizedBox(height: 16), // Add extra padding at bottom
           ],
         ),
       ),
@@ -115,8 +119,8 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
   }
 
   Widget _buildOverviewCards() {
-    return Consumer2<CourseProvider, ReviewProvider>(
-      builder: (context, courseProvider, reviewProvider, _) {
+    return Consumer<CourseProvider>(
+      builder: (context, courseProvider, _) {
         final totalRevenue = _calculateRevenue(_selectedPeriod);
         final totalStudents = _calculateStudents(_selectedPeriod);
 
@@ -126,7 +130,7 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 1.2,
+          childAspectRatio: 1.1, // Increased to prevent overflow
           children: [
             _buildOverviewCard(
               'Total Revenue',

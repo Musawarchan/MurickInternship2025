@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final tabs = userRole == UserRole.admin
             ? [
                 const AdminDashboard(),
-                const CoursesTab(),
+                // const CoursesTab(),
                 const ProfileTab(),
               ]
             : userRole == UserRole.instructor
@@ -50,10 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icon(Icons.admin_panel_settings_outlined),
                     selectedIcon: Icon(Icons.admin_panel_settings),
                     label: 'Admin'),
-                NavigationDestination(
-                    icon: Icon(Icons.menu_book_outlined),
-                    selectedIcon: Icon(Icons.menu_book),
-                    label: 'Courses'),
+                // NavigationDestination(
+                //     icon: Icon(Icons.menu_book_outlined),
+                //     selectedIcon: Icon(Icons.menu_book),
+                //     label: 'Courses'),
                 NavigationDestination(
                     icon: Icon(Icons.person_outline),
                     selectedIcon: Icon(Icons.person),

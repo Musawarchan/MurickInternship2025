@@ -48,7 +48,7 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
                 return courses.isEmpty
                     ? _buildEmptyState()
                     : ListView.builder(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(10),
                         itemCount: courses.length,
                         itemBuilder: (context, index) {
                           final course = courses[index];
@@ -271,12 +271,12 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
                           course.category.name.toUpperCase(),
                           AppTheme.ceruleanBlue,
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 4),
                         _buildInfoChip(
                           course.difficulty.name.toUpperCase(),
                           AppTheme.amberOrange,
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 4),
                         _buildInfoChip(
                           course.isFree
                               ? 'FREE'
@@ -382,7 +382,7 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
 
   Widget _buildInfoChip(String label, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),

@@ -27,6 +27,7 @@ class CoursesTab extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Role-based header
@@ -230,7 +231,7 @@ class CoursesTab extends StatelessWidget {
                       crossAxisCount: _getCrossAxisCount(constraints.maxWidth),
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
-                      childAspectRatio: 0.59
+                      childAspectRatio: 0.62
                       // _getChildAspectRatio(constraints.maxWidth),
                       ),
                   itemCount: instructorCourses.length,
@@ -453,9 +454,9 @@ class CoursesTab extends StatelessWidget {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount:
                             _getCrossAxisCount(constraints.maxWidth),
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 0.59
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 0.67
                         // _getChildAspectRatio(constraints.maxWidth),
                         ),
                     itemCount: courseProvider.courses.length +

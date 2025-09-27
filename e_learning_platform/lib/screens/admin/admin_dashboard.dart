@@ -19,35 +19,47 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     super.initState();
-    context.read<CourseProvider>().loadInitial();
-    context.read<ReviewProvider>().loadReviews();
+    // Use post-frame callback to avoid setState during build and check mounted state
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<CourseProvider>().loadInitial();
+        context.read<ReviewProvider>().loadReviews();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up any pending operations
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Dashboard'),
-        centerTitle: true,
-        backgroundColor: AppTheme.ceruleanBlue,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.read<AuthProvider>().logout();
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         context.read<AuthProvider>().logout();
+      //       },
+      //       icon: const Icon(Icons.logout),
+      //       tooltip: 'Logout',
+      //     ),
+      //   ],
+      // ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 24,
+            ),
             _buildWelcomeSection(),
-            const SizedBox(height: 24),
+            // const SizedBox(height: 12),
             _buildStatsCards(),
             const SizedBox(height: 24),
             _buildQuickActions(),
@@ -64,7 +76,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       builder: (context, auth, _) {
         return Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -123,7 +135,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 1.5,
+          childAspectRatio: 1.2,
           children: [
             _buildStatCard(
               'Total Courses',
@@ -158,7 +170,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget _buildStatCard(
       String title, String value, IconData icon, Color color) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),

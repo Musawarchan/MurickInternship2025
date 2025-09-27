@@ -17,7 +17,18 @@ class _AdminReviewsScreenState extends State<AdminReviewsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ReviewProvider>().loadReviews();
+    // Use post-frame callback to avoid setState during build and check mounted state
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ReviewProvider>().loadReviews();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up any pending operations
+    super.dispose();
   }
 
   @override
