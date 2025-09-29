@@ -103,7 +103,7 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
                     labelText: 'Category',
                     border: OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
+                      horizontal: 8,
                       vertical: 8,
                     ),
                   ),
@@ -203,7 +203,7 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
   Widget _buildCourseCard(Course course, CourseProvider courseProvider) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
@@ -243,7 +243,7 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
                   size: 30,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,16 +271,16 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
                           course.category.name.toUpperCase(),
                           AppTheme.ceruleanBlue,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 2),
                         _buildInfoChip(
                           course.difficulty.name.toUpperCase(),
                           AppTheme.amberOrange,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 2),
                         _buildInfoChip(
                           course.isFree
                               ? 'FREE'
-                              : '₹${course.price.toStringAsFixed(0)}',
+                              : 'Rs ${course.price.toStringAsFixed(0)}',
                           course.isFree ? Colors.green : AppTheme.vividPink,
                         ),
                       ],
@@ -394,7 +394,7 @@ class _AdminCoursesScreenState extends State<AdminCoursesScreen> {
         label,
         style: TextStyle(
           color: color,
-          fontSize: 12,
+          fontSize: 8,
           fontWeight: FontWeight.bold,
         ),
       ),

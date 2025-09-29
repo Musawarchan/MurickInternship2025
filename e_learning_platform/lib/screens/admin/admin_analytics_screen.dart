@@ -130,7 +130,7 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 1.1, // Increased to prevent overflow
+          childAspectRatio: 1.0, // Increased to prevent overflow
           children: [
             _buildOverviewCard(
               'Total Revenue',
@@ -203,7 +203,7 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
                 child: Icon(
                   icon,
                   color: color,
-                  size: 24,
+                  size: 20,
                 ),
               ),
               const Spacer(),
@@ -217,14 +217,14 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
                   change,
                   style: TextStyle(
                     color: Colors.green.shade700,
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Text(
             value,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -235,7 +235,7 @@ class _AdminAnalyticsScreenState extends State<AdminAnalyticsScreen> {
           const SizedBox(height: 4),
           Text(
             title,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
           ),

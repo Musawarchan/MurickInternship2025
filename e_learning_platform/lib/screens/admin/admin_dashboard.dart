@@ -37,17 +37,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         context.read<AuthProvider>().logout();
-      //       },
-      //       icon: const Icon(Icons.logout),
-      //       tooltip: 'Logout',
-      //     ),
-      //   ],
-      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -65,6 +54,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             _buildQuickActions(),
             const SizedBox(height: 24),
             _buildRecentActivity(),
+            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -135,7 +125,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 1.2,
+          childAspectRatio: 1.1,
           children: [
             _buildStatCard(
               'Total Courses',
@@ -245,9 +235,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 2.5,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 2.3,
           children: [
             _buildActionCard(
               'Manage Courses',
@@ -310,7 +300,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               Expanded(
                 child: Text(
                   title,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: color,
                       ),

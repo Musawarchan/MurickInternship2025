@@ -32,6 +32,7 @@ class CoursesTab extends StatelessWidget {
                 children: [
                   // Role-based header
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: Text(
@@ -231,7 +232,7 @@ class CoursesTab extends StatelessWidget {
                       crossAxisCount: _getCrossAxisCount(constraints.maxWidth),
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
-                      childAspectRatio: 0.62
+                      childAspectRatio: 0.55
                       // _getChildAspectRatio(constraints.maxWidth),
                       ),
                   itemCount: instructorCourses.length,
@@ -454,10 +455,10 @@ class CoursesTab extends StatelessWidget {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount:
                             _getCrossAxisCount(constraints.maxWidth),
-                        crossAxisSpacing: 8,
+                        crossAxisSpacing: 2,
                         mainAxisSpacing: 8,
-                        childAspectRatio: 0.67
-                        // _getChildAspectRatio(constraints.maxWidth),
+                        childAspectRatio: 0.6
+                        //
                         ),
                     itemCount: courseProvider.courses.length +
                         (courseProvider.hasMore ? 1 : 0),
