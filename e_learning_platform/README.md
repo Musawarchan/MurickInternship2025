@@ -173,4 +173,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👨‍💻 Author
 
 **Musawar Hussain**
-- GitHub: [@musawarhussain](https://github.com/musawarhussain)
+- GitHub: [@Musawarchan](https://github.com/Musawarchan)
